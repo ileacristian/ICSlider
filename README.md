@@ -3,7 +3,7 @@ ICSlider
 
 ICSlider is an iOS component (ARC) that uses UISlider, some labes and a button to create the following result:
 
-![SliderExample](https://github.com/ileacristian/ICSlider/blob/master/slider_example.png)
+![SliderExample](https://raw.github.com/ileacristian/ICSlider/master/slider_example.png)
 
 It has two callbacks for the delegate and several methods that simulate the real UISlider. The images userd are all made with QuartCore.
 
