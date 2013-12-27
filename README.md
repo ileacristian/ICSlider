@@ -1,7 +1,7 @@
 ICSlider
 ========
 
-ICSlider is an iOS component (ARC) that uses UISlider, some labes and a button to create the following result:
+ICSlider is an (ARC) iOS user interface component that uses UISlider, some labes and a button to create the following result:
 
 ![SliderExample](https://raw.github.com/ileacristian/ICSlider/master/slider_example.png)
 
@@ -25,12 +25,12 @@ These are the public proprieties available:
 	@property (nonatomic, assign) CGFloat minimumValue;
 	@property (nonatomic, assign) CGFloat maximumValue;
 	@property (nonatomic, strong) UILabel *minValueLabel;
-    @property (nonatomic, strong) UILabel *midValueLabel;
-    @property (nonatomic, strong) UILabel *maxValueLabel;
-    @property (nonatomic, assign) BOOL continuous;
-    @property (nonatomic, readonly, getter=isDisabled) BOOL disabled;
-    @property (nonatomic, weak) id<ICSliderDelegate> delegate;
-    @end
+	@property (nonatomic, strong) UILabel *midValueLabel;
+ 	@property (nonatomic, strong) UILabel *maxValueLabel;
+ 	@property (nonatomic, assign) BOOL continuous;
+ 	@property (nonatomic, readonly, getter=isDisabled) BOOL disabled;
+ 	@property (nonatomic, weak) id<ICSliderDelegate> delegate;
+ 	@end
 
 
 
