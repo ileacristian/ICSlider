@@ -40,62 +40,80 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
         NSUInteger sliderWidth = SLIDER_WIDTH_PERCENT * frame.size.width;
-        _sliderGrayBackground = [[UIImage graySliderImageForSize:CGSizeMake(sliderWidth, 10)] resizableImageWithCapInsets:UIEdgeInsetsMake(7, 7, 7, 7)];
-        _sliderGradientBackground = [[UIImage gradientSliderImageForSize:CGSizeMake(sliderWidth, 10)] resizableImageWithCapInsets:UIEdgeInsetsMake(7, 7, 7, 7)];
-        
-        _slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 10, sliderWidth, 23)];
-        [self setSliderBackground:self.sliderGrayBackground];
-        [_slider setThumbImage:[[UIImage sliderThumbImageWithSize:CGSizeMake(26,26)]resizableImageWithCapInsets:UIEdgeInsetsMake(24, 24, 24, 24)] forState:UIControlStateNormal];
-        [_slider setMaximumValue:SLIDER_MAX_VALUE];
-        [_slider setMinimumValue:SLIDER_MIN_VALUE];
-        [_slider addTarget:self action:@selector(sliderDidUpdate:) forControlEvents:UIControlEventValueChanged];
-        [_slider setValue:SLIDER_CENTER_VALUE];
-        
-        [self addSubview:_slider];
 
-        CGFloat resetButtonSize = RESET_BUTTON_WIDTH_PERCENT * frame.size.width;
-        CGFloat resetButtonCenterX = frame.origin.x + frame.size.width - (resetButtonSize / 2.0);
-        CGFloat resetButtonCenterY = _slider.center.y;
-
-        _resetButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, resetButtonSize, resetButtonSize)];
-        [_resetButton setCenter:CGPointMake(resetButtonCenterX, resetButtonCenterY)];
-        [_resetButton addTarget:self action:@selector(resetSlider) forControlEvents:UIControlEventTouchUpInside];
-        [_resetButton setImage:[UIImage sliderResetButtonImageForSize:_resetButton.frame.size] forState:UIControlStateNormal];
-        [self.resetButton setHidden:YES];
-        [self addSubview:_resetButton];
-
-        _minValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _slider.frame.size.height + LABEL_Y_OFFSET, LABEL_WIDTH, 40)];
-        [_minValueLabel setTextAlignment:NSTextAlignmentLeft];
-        [_minValueLabel setBackgroundColor:[UIColor clearColor]];
-        [_minValueLabel setNumberOfLines:NUMBER_OF_TEXT_LINES];
-        [_minValueLabel setFont:[UIFont fontWithName:LABEL_FONT_NAME size:LABEL_FONT_SIZE]];
-        [_minValueLabel setTextColor:LABEL_FONT_COLOR];
-        [_minValueLabel setText:@"Very dissatisfied"];
-        [self addSubview:_minValueLabel];
-
-        _midValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, LABEL_WIDTH, 40)];
-        [_midValueLabel setCenter:CGPointMake(_slider.center.x, _minValueLabel.center.y)];
-        [_midValueLabel setTextAlignment:NSTextAlignmentCenter];
-        [_midValueLabel setBackgroundColor:[UIColor clearColor]];
-        [_midValueLabel setNumberOfLines:NUMBER_OF_TEXT_LINES];
-        [_midValueLabel setFont:[UIFont fontWithName:LABEL_FONT_NAME size:LABEL_FONT_SIZE]];
-        [_midValueLabel setTextColor:LABEL_FONT_COLOR];
-        [_midValueLabel setText:@"Neutral"];
-        [self addSubview:_midValueLabel];
-
-        _maxValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(_slider.frame.size.width - LABEL_WIDTH, _slider.frame.size.height + LABEL_Y_OFFSET, LABEL_WIDTH, 40)];
-        [_maxValueLabel setTextAlignment:NSTextAlignmentRight];
-        [_maxValueLabel setBackgroundColor:[UIColor clearColor]];
-        [_maxValueLabel setNumberOfLines:NUMBER_OF_TEXT_LINES];
-        [_maxValueLabel setFont:[UIFont fontWithName:LABEL_FONT_NAME size:LABEL_FONT_SIZE]];
-        [_maxValueLabel setTextColor:LABEL_FONT_COLOR];
-        [_maxValueLabel setText:@"Very satisfied"];
-        [self addSubview:_maxValueLabel];
+        [self setupSliderBackgroundsForWidth:sliderWidth];
+        [self setupSliderForWidth:sliderWidth];
+        [self setupResetButton];
+        [self setupLabels];
 
     }
     return self;
+}
+
+- (void)setupSliderBackgroundsForWidth:(CGFloat)width {
+    UIEdgeInsets capInsets = UIEdgeInsetsMake(7, 7, 7, 7);
+    self.sliderGrayBackground = [[UIImage graySliderImageForSize:CGSizeMake(width, 10)] resizableImageWithCapInsets:capInsets];
+    self.sliderGradientBackground = [[UIImage gradientSliderImageForSize:CGSizeMake(width, 10)] resizableImageWithCapInsets:capInsets];
+}
+
+- (void)setupSliderForWidth:(CGFloat)width {
+    self.slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 10, width, 23)];
+    [self setSliderBackground:self.sliderGrayBackground];
+
+    UIImage *sliderThumbImage = [UIImage sliderThumbImageWithSize:CGSizeMake(26,26)];
+    sliderThumbImage = [sliderThumbImage resizableImageWithCapInsets:UIEdgeInsetsMake(24, 24, 24, 24)];
+
+    [self.slider setThumbImage:sliderThumbImage forState:UIControlStateNormal];
+    [self.slider setMaximumValue:SLIDER_MAX_VALUE];
+    [self.slider setMinimumValue:SLIDER_MIN_VALUE];
+    [self.slider addTarget:self action:@selector(sliderDidUpdate:) forControlEvents:UIControlEventValueChanged];
+    [self.slider setValue:SLIDER_CENTER_VALUE];
+
+    [self addSubview:self.slider];
+}
+
+- (void)setupResetButton {
+    CGFloat resetButtonSize = RESET_BUTTON_WIDTH_PERCENT * self.frame.size.width;
+    CGFloat resetButtonCenterX = self.frame.size.width - (resetButtonSize / 2.0);
+    CGFloat resetButtonCenterY = self.slider.center.y;
+
+    self.resetButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, resetButtonSize, resetButtonSize)];
+    [self.resetButton setCenter:CGPointMake(resetButtonCenterX, resetButtonCenterY)];
+    [self.resetButton addTarget:self action:@selector(resetSlider) forControlEvents:UIControlEventTouchUpInside];
+    [self.resetButton setImage:[UIImage sliderResetButtonImageForSize:_resetButton.frame.size] forState:UIControlStateNormal];
+    [self.resetButton setHidden:YES];
+    [self addSubview:self.resetButton];
+}
+
+- (void)setupLabels {
+    CGFloat sliderWidth = self.slider.frame.size.width;
+    CGFloat sliderHeight = self.slider.frame.size.height;
+
+    CGRect minValueLabelFrame = CGRectMake(0, sliderHeight + LABEL_Y_OFFSET, LABEL_WIDTH, 40);
+    CGRect midValueLabelFrame = CGRectMake((sliderWidth - LABEL_WIDTH) / 2.0 , minValueLabelFrame.origin.y, LABEL_WIDTH, 40);
+    CGRect maxValueLabelFrame = CGRectMake(sliderWidth - LABEL_WIDTH, sliderHeight + LABEL_Y_OFFSET, LABEL_WIDTH, 40);
+
+    self.minValueLabel = [self labelWithText:@"Minimum value" frame:minValueLabelFrame alignment:NSTextAlignmentLeft];
+    self.midValueLabel = [self labelWithText:@"Medium value" frame:midValueLabelFrame alignment:NSTextAlignmentCenter];
+    self.maxValueLabel = [self labelWithText:@"Maximum value" frame:maxValueLabelFrame alignment:NSTextAlignmentRight];
+
+    [self addSubview:self.minValueLabel];
+    [self addSubview:self.midValueLabel];
+    [self addSubview:self.maxValueLabel];
+}
+
+- (UILabel*)labelWithText:(NSString*)text frame:(CGRect)frame alignment:(NSTextAlignment)alignment {
+    UILabel *label = [[UILabel alloc] initWithFrame:frame];
+
+    [label setTextAlignment:alignment];
+    [label setBackgroundColor:[UIColor clearColor]];
+    [label setNumberOfLines:NUMBER_OF_TEXT_LINES];
+    [label setFont:[UIFont fontWithName:LABEL_FONT_NAME size:LABEL_FONT_SIZE]];
+    [label setTextColor:LABEL_FONT_COLOR];
+    [label setText:text];
+
+    return label;
 }
 
 - (void)setSliderBackground:(UIImage*)backgroundImage {

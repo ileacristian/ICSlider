@@ -57,9 +57,9 @@ void drawHorizontalGradientInRoundedRect(CGContextRef context, CGRect rect, NSAr
     UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
     CGContextRef context= UIGraphicsGetCurrentContext();
 
-    UIColor *firstColor = [UIColor colorWithRed:255.0 green:0 blue:2.0 / 255.0 alpha:1];
-    UIColor *secondColor = [UIColor colorWithRed:228.0 / 255.0 green:182.0 /255.0 blue:0 alpha:1];
-    UIColor *thirdColor = [UIColor colorWithRed:67.0 /255.0 green:172.0 /255.0 blue:62.0 / 255.0 alpha:1];
+    UIColor *firstColor = [UIColor colorWithRed:255.0 / 255.0 green:105.0 / 255.0 blue:4.0 / 255.0 alpha:1];
+    UIColor *secondColor = [UIColor colorWithRed:239.0 / 255.0 green:213.0 /255.0 blue:114.0 / 255.0 alpha:1];
+    UIColor *thirdColor = [UIColor colorWithRed:72.0 /255.0 green:209.0 /255.0 blue:226.0 / 255.0 alpha:1];
 
     CGColorRef firstCGColor = [firstColor CGColor];
     CGColorRef secondCGColor = [secondColor CGColor];
